@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import numpy as np
 from tensorflow.keras.models import load_model
 
@@ -12,6 +13,7 @@ labels2 = ["🍎", "🌳", "🍕", "🗼", "🍩", "🐟", "🍷", "🐕", "🙂
 
 
 app = Flask(__name__)
+CORS(app, origins=["http://localhost:5173"], allow_headers=["Content-Type"], methods=["GET", "POST"])
 
 @app.route("/predict", methods=['POST'])
 def predict():
