@@ -3,8 +3,8 @@ import numpy as np
 from tensorflow.keras.models import load_model
 
 
-digit_model = load_model('srp/digit_model.h5')
-doodle_model = load_model('srp/doodle_model2.h5')
+digit_model = load_model('digit_model.h5')
+doodle_model = load_model('doodle_model2.h5')
 
 labels = ["penguin", "apple", "airplane", "tree", "pan", "wine glass", "dog", "headphones", "carrot", "bridge", "helicopter", "cactus", "scissors", "bed"]
 labels2_names = ["apple", "tree", "pizza", "eiffel_tower", "donut", "fish", "wine_glass", "dog", "smiley", "carrot", "t_shirt", "cactus", "bed"]
