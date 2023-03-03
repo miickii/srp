@@ -13,7 +13,7 @@ doodle_labels = ["🍎", "🌳", "🍕", "🗼", "🍩", "🐟", "🍷", "🐕",
 digit_labels = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:5173", "https://miickii.github.io/srp-frontend/"], allow_headers=["Content-Type"], methods=["GET", "POST"])
+CORS(app, origins=["http://localhost:5173", "https://miickii.github.io/srp-frontend"], allow_headers=["Content-Type"], methods=["GET", "POST"])
 
 def most_likely(prediction, labels):
     sorted_indices = np.argsort(prediction)
