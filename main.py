@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+#from flask_cors import CORS
+from flask_cors import cross_origin
 import numpy as np
 from tensorflow.keras.models import load_model
 
@@ -13,7 +14,7 @@ doodle_labels = ["🍎", "🌳", "🍕", "🗼", "🍩", "🐟", "🍷", "🐕",
 digit_labels = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:5173", "https://miickii.github.io/srp-frontend"], allow_headers=["Content-Type"], methods=["GET", "POST"])
+#CORS(app, origins=["http://localhost:5173", "https://miickii.github.io/srp-frontend"], allow_headers=["Content-Type"], methods=["GET", "POST"])
 
 def most_likely(prediction, labels):
     sorted_indices = np.argsort(prediction)
@@ -22,6 +23,7 @@ def most_likely(prediction, labels):
     return {"top": [labels[top_pred_idx], int(prediction[0][top_pred_idx]*100)], "alt": [labels[alt_pred_idx], int(prediction[0][alt_pred_idx]*100)]} 
 
 @app.route("/predict", methods=['POST'])
+@cross_origin()
 def predict():
     result = ""
 
