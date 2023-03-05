@@ -44,6 +44,7 @@ def predict():
 @app.route("/change-model", methods=['POST'])
 @cross_origin()
 def change_model():
+    global doodle_model
     new_model = request.json['newModel']
     if new_model == 1:
         doodle_model = doodle_model_small
