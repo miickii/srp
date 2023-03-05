@@ -41,7 +41,8 @@ def predict():
 
     return jsonify(result)
 
-@views.route("/change-model", methods=['POST'])
+@app.route("/change-model", methods=['POST'])
+@cross_origin()
 def change_model():
     new_model = request.json['newModel']
     if new_model == 1:
