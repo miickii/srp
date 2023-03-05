@@ -1,12 +1,14 @@
 from flask import Flask, request, jsonify
-#from flask_cors import CORS
 from flask_cors import cross_origin
 import numpy as np
 from tensorflow.keras.models import load_model
 
 
 digit_model = load_model('digit_model.h5')
-doodle_model = load_model('doodle_model2.h5')
+doodle_model_small = load_model('doodle_model2.h5') # 8000 training examples
+doodle_model_medium = load_model('doodle_model_medium.h5') # 18000 training examples
+doodle_model_large = load_model('doodle_model_large.h5') # 70000 training examples
+doodle_model = doodle_model_small
 
 #labels = ["penguin", "apple", "airplane", "tree", "pan", "wine glass", "dog", "headphones", "carrot", "bridge", "helicopter", "cactus", "scissors", "bed"]
 #labels2_names = ["apple", "tree", "pizza", "eiffel_tower", "donut", "fish", "wine_glass", "dog", "smiley", "carrot", "t_shirt", "cactus", "bed"]
@@ -14,7 +16,6 @@ doodle_labels = ["🍎", "🌳", "🍕", "🗼", "🍩", "🐟", "🍷", "🐕",
 digit_labels = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 app = Flask(__name__)
-#CORS(app, origins=["http://localhost:5173", "https://miickii.github.io/srp-frontend"], allow_headers=["Content-Type"], methods=["GET", "POST"])
 
 def most_likely(prediction, labels):
     sorted_indices = np.argsort(prediction)
@@ -39,6 +40,18 @@ def predict():
         result = most_likely(prediction, digit_labels)
 
     return jsonify(result)
+
+@views.route("/change-model", methods=['POST'])
+def change_model():
+    new_model = request.json['newModel']
+    if new_model == 1:
+        doodle_model = doodle_model_small
+    elif new_model == 2:
+        doodle_model = doodle_model_medium
+    elif new_model == 3:
+        doodle_model = doodle_model_large
+
+    return jsonify("ok")
 
 
 if __name__ == '__main__':
