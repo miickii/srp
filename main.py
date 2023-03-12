@@ -4,7 +4,10 @@ import numpy as np
 from tensorflow.keras.models import load_model
 
 
-digit_model = load_model('digit_model.h5')
+digit_model_small = load_model('api/digit_model_small.h5')
+digit_model_large = load_model('api/digit_model_large.h5')
+digit_model = digit_model_small
+
 doodle_model_small = load_model('doodle_model2.h5') # 8000 training examples
 doodle_model_medium = load_model('doodle_model_medium.h5') # 18000 training examples
 doodle_model_large = load_model('doodle_model_large.h5') # 70000 training examples
@@ -44,12 +47,21 @@ def predict():
 @app.route("/change-model", methods=['POST'])
 @cross_origin()
 def change_model():
-    global doodle_model
+    global doodle_model, digit_model
+    is_digit = request.json['digitModel']
     new_model = request.json['newModel']
+
     if new_model == 1:
-        doodle_model = doodle_model_small
+        if is_digit:
+            digit_model = digit_model_small
+        else:
+            doodle_model = doodle_model_small
     elif new_model == 2:
-        doodle_model = doodle_model_medium
+        if is_digit:
+            digit_model = digit_model_large
+            print("changed")
+        else:
+            doodle_model = doodle_model_medium
     elif new_model == 3:
         doodle_model = doodle_model_large
 
