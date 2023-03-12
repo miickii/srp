@@ -4,8 +4,8 @@ import numpy as np
 from tensorflow.keras.models import load_model
 
 
-digit_model_small = load_model('api/digit_model_small.h5')
-digit_model_large = load_model('api/digit_model_large.h5')
+digit_model_small = load_model('digit_model_small.h5')
+digit_model_large = load_model('digit_model_large.h5')
 digit_model = digit_model_small
 
 doodle_model_small = load_model('doodle_model2.h5') # 8000 training examples
