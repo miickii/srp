@@ -13,10 +13,8 @@ doodle_model_medium = load_model('doodle_model_medium.h5') # 18000 training exam
 doodle_model_large = load_model('doodle_model_large.h5') # 70000 training examples
 doodle_model = doodle_model_small
 
-#labels = ["penguin", "apple", "airplane", "tree", "pan", "wine glass", "dog", "headphones", "carrot", "bridge", "helicopter", "cactus", "scissors", "bed"]
-#labels2_names = ["apple", "tree", "pizza", "eiffel_tower", "donut", "fish", "wine_glass", "dog", "smiley", "carrot", "t_shirt", "cactus", "bed"]
-doodle_labels = ["🍎", "🌳", "🍕", "🗼", "🍩", "🐟", "🍷", "🐕", "🙂", "🥕", "👕", "🌵", "🛏️"]
-digit_labels = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+tegning_labeler = ["Æble", "Træ", "Pizza", "Eiffeltårn", "Donut", "Fisk", "Vinglas", "Hund", "Smiley", "Gulerod", "T-shirt", "Kaktus", "Seng"]
+ciffer_labeler = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 app = Flask(__name__)
 
@@ -37,10 +35,10 @@ def predict():
 
     if is_doodle:
         prediction = doodle_model.predict(pixels.reshape((1, 784)))
-        result = most_likely(prediction, doodle_labels)
+        result = most_likely(prediction, tegning_labeler)
     else:
         prediction = digit_model.predict(pixels.reshape((1, 28, 28)))
-        result = most_likely(prediction, digit_labels)
+        result = most_likely(prediction, ciffer_labeler)
 
     return jsonify(result)
 
@@ -57,13 +55,12 @@ def change_model():
         else:
             doodle_model = doodle_model_small
     elif new_model == 2:
+        doodle_model = doodle_model_medium
+    elif new_model == 3:
         if is_digit:
             digit_model = digit_model_large
-            print("changed")
         else:
-            doodle_model = doodle_model_medium
-    elif new_model == 3:
-        doodle_model = doodle_model_large
+            doodle_model = doodle_model_large
 
     return jsonify("ok")
 
